@@ -104,3 +104,53 @@ begin
     end;
     readln;
 end;
+procedure simpanKeFile;
+var
+    i: integer;
+begin
+    assign(f, 'C:\TUGASBESAR\data_karyawan.txt');
+    rewrite(f);
+    for i := 1 to jumlahKaryawan do
+    begin
+        with dataKaryawan[i] do
+        begin
+            writeln(f, 'Karyawan ke-', i);
+            writeln(f, 'Nama: ', nama);
+            writeln(f, 'Jam Kerja: ', jamKerja);
+            writeln(f, 'Masa Kerja: ', masaKerja);
+            writeln(f, 'Gaji Pokok: ', gajiPokok:0:2);
+            writeln(f, 'Total Gaji: ', totalGaji:0:2);
+            writeln(f, '------------------------');
+        end;
+    end;
+    close(f);
+    writeln('Data berhasil disimpan ke file data_karyawan.txt');
+    readln;
+end;
+
+var
+    pilihan: integer;
+
+begin
+    clrscr;
+    jumlahKaryawan := 0;
+    Writeln('======= Membaca Data Karyawan Dari File =======');
+    readkey;
+    bacaDataDariFile;
+    repeat
+        clrscr;
+        writeln('SISTEM PENGGAJIAN KARYAWAN');
+        writeln('1. Tambah Data Karyawan');
+        writeln('2. Tampilkan Data');
+        writeln('3. Simpan ke File');
+        writeln('4. Keluar');
+        write('Pilihan: ');
+        readln(pilihan);
+        
+        case pilihan of
+            1: tambahKaryawan;
+            2: tampilkanData;
+            3: simpanKeFile;
+        end;
+    until pilihan = 4;
+end.
