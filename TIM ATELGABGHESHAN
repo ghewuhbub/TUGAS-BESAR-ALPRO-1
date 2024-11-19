@@ -36,6 +36,47 @@ begin
         readln(masaKerja);
         write('Gaji Pokok: ');
         readln(gajiPokok);
+procedure bacaDataDariFile;
+var
+    baris: string;
+begin
+    
+        assign(f, 'C:\TUGASBESAR\data_karyawan.txt');
+        reset(f);
+        jumlahKaryawan := 0;
+        
+        while not eof(f) do
+        begin
+            readln(f, baris); // Membaca "Karyawan ke-X"
+            if pos('Karyawan ke-', baris) > 0 then
+            begin
+                jumlahKaryawan := jumlahKaryawan + 1;
+                with dataKaryawan[jumlahKaryawan] do
+                begin
+                    readln(f, baris); // Membaca "Nama: XXX"
+                    nama := copy(baris, pos(': ', baris) + 2, length(baris));
+                    
+                    readln(f, baris); // Membaca "Jam Kerja: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), jamKerja);
+                    
+                    readln(f, baris); // Membaca "Masa Kerja: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), masaKerja);
+                    
+                    readln(f, baris); // Membaca "Gaji Pokok: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), gajiPokok);
+                    
+                    readln(f, baris); // Membaca "Total Gaji: XXX"
+                    val(copy(baris, pos(': ', baris) + 2, length(baris)), totalGaji);
+                    
+                    readln(f, baris); // Membaca pembatas "------------"
+                end;
+            end;
+        end;
+        close(f);
+        writeln('Data berhasil dibaca dari file');
+        readln;
+    
+end;
         
         // Hitung total gaji dengan bonus
         totalGaji := gajiPokok + (gajiPokok * hitungBonus(masaKerja));
